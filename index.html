@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Aastha K Thakkar - Portfolio</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.98);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav .logo { font-size: 22px; font-weight: 600; letter-spacing: 1px; color: #000; }
+        nav ul { list-style: none; display:flex; gap:35px; }
+        nav a { text-decoration:none; color:#333; font-size:14px; letter-spacing:0.5px; transition: color .3s; }
+        nav a:hover { color: #B8860B; }
+
+        /* Hero Section */
+        .hero { margin-top: 80px; padding: 100px 40px; text-align:center; background: linear-gradient(135deg,#f5f5f5 0%,#fff 100%); }
+        .hero h1 { font-size:48px; font-weight:300; margin-bottom:15px; color:#000; letter-spacing:2px; }
+        .hero .title { font-size:20px; color:#B8860B; margin-bottom:40px; font-weight:400; letter-spacing:1px; }
+        .hero .stats { display:flex; justify-content:center; gap:60px; margin-top:50px; flex-wrap:wrap; }
+        .hero .stat .number { font-size:36px; font-weight:600; color:#B8860B; }
+        .hero .stat .label { font-size:14px; color:#666; text-transform:uppercase; letter-spacing:1px; margin-top:5px; }
+
+        /* About Section */
+        .about { max-width:900px; margin:80px auto; padding:0 40px; text-align:center; }
+        .about h2 { font-size:36px; font-weight:300; margin-bottom:30px; color:#000; letter-spacing:1.5px; }
+        .about p { font-size:16px; line-height:1.8; color:#555; margin-bottom:20px; }
+
+        /* Services Section */
+        .services { background:#fafafa; padding:80px 40px; }
+        .services h2 { text-align:center; font-size:36px; font-weight:300; margin-bottom:60px; color:#000; letter-spacing:1.5px; }
+        .services-grid { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:40px; }
+        .service-card { background:#fff; padding:40px 30px; text-align:center; transition: transform .3s, box-shadow .3s; border:1px solid #eee; }
+        .service-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .service-card h3 { font-size:20px; font-weight:500; margin-bottom:15px; color:#000; letter-spacing:0.5px; }
+        .service-card p { font-size:14px; color:#666; line-height:1.6; }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+        .portfolio h2 {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: #000;
+            letter-spacing: 1.5px;
+        }
+
+        /* Carousel */
+        .carousel {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #000;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.6s ease-in-out;
+            will-change: transform;
+        }
+
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            position: relative;
+            color: #fff;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 520px;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.9);
+        }
+
+        .slide-content {
+            position: absolute;
+            left: 40px;
+            bottom: 40px;
+            background: rgba(0,0,0,0.45);
+            padding: 18px 22px;
+            border-radius: 8px;
+            max-width: 70%;
+        }
+
+        .slide-content h3 {
+            margin-bottom: 6px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .slide-content p {
+            font-size: 14px;
+            color: #f3f3f3;
+            line-height: 1.4;
+        }
+
+        /* Controls */
+        .carousel .control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+        }
+        .carousel .control:focus { outline: 2px solid #B8860B; }
+
+        .carousel .prev { left: 18px; }
+        .carousel .next { right: 18px; }
+
+        /* Dots */
+        .dots {
+            text-align: center;
+            margin-top: 16px;
+            display:flex;
+            justify-content:center;
+            gap:8px;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius:50%;
+            background: #ddd;
+            cursor: pointer;
+        }
+        .dot.active { background: #B8860B; }
+
+        /* CTA Section */
+        .cta { text-align: center; padding: 80px 40px; background: #000; color: #fff; }
+        .cta h2 { font-size: 36px; font-weight: 300; margin-bottom: 30px; letter-spacing: 1.5px; }
+        .cta-button { display: inline-block; padding: 15px 40px; background: #B8860B; color: #fff; text-decoration: none; font-size: 16px; letter-spacing: 1px; transition: background .3s; border: 2px solid #B8860B; }
+        .cta-button:hover { background: transparent; color: #B8860B; }
+
+        /* Footer */
+        footer { text-align:center; padding:40px; background:#fafafa; color:#666; font-size:14px; }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .slide img { height: 420px; }
+            .slide-content { left: 20px; right:20px; max-width: calc(100% - 40px); }
+        }
+        @media (max-width: 768px) {
+            nav ul { gap: 20px; display: none; } /* keep nav simple on mobile; you can change */
+            .hero h1 { font-size: 32px; }
+            .hero .title { font-size: 16px; }
+            .hero .stats { gap: 30px; }
+            .service-card { padding: 30px 20px; }
+            .slide img { height: 260px; }
+            .slide-content { bottom: 14px; left: 12px; right:12px; padding: 12px; }
+        }
+
+        /* Link appearance reset for services grid */
+        .services-grid a {
+            text-decoration: none !important;
+            color: inherit !important;
+        }
+
+        .services-grid a:hover {
+            text-decoration: none;
+        }
+
+        .service-card {
+            cursor: pointer;
+        }
+
+
+        /* --------------------------
+           Modal (in-page overlay) - STATIC PROJECT PANELS
+           -------------------------- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 24px;
+        }
+        .modal-overlay.open { display:flex; }
+
+        .modal {
+            width: 100%;
+            max-width: 1120px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.45);
+            min-height: 420px;
+            position: relative;
+        }
+
+        .modal-gallery {
+            flex: 1.4;
+            background: #f7f5f4;
+            padding: 18px;
+            display:flex;
+            gap:12px;
+            align-items: stretch;
+            position: relative;
+            overflow: hidden;
+            justify-content: center;
+        }
+
+        .mosaic {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+            align-self: center;
+        }
+        .mosaic .m1 { grid-column: 1 / span 1; grid-row: 1 / span 2; background: #ddd; overflow: hidden; }
+        .mosaic .m2 { grid-column: 2 / span 1; grid-row: 1 / span 1; background: #ddd; overflow: hidden; }
+        .mosaic .m3 { grid-column: 2 / span 1; grid-row: 2 / span 1; background: #ddd; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .mosaic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* make left image span full width when mosaic has only .m1 present */
+.mosaic.single {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+        /* Slide arrows (navigate slides inside a project) */
+        .slide-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: rgba(0,0,0,0.35);
+          color: #fff;
+          display:flex; align-items:center; justify-content:center;
+          cursor:pointer; border:none; font-size:18px;
+          z-index: 25;
+        }
+        .slide-arrow.left { left: 56px; }
+        .slide-arrow.right { right: 56px; }
+
+        .modal-info {
+            flex: 0.9;
+            background: #b98b71;
+            color: #fff;
+            padding: 34px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+        }
+        .modal-info .kicker { font-size: 12px; opacity: 0.95; letter-spacing: 3px; text-transform: uppercase; }
+        .modal-info h3 { font-size: 18px; margin-top: 6px; letter-spacing: 1px; }
+        .modal-info p { font-size: 14px; color: rgba(255,255,255,0.95); line-height: 1.6; }
+        .modal-info .meta { font-size: 13px; color: rgba(255,255,255,0.9); margin-top: 8px; }
+
+        .modal-close {
+            position: absolute;
+            right: 16px;
+            top: 16px;
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.9);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            cursor:pointer;
+            font-size: 16px;
+            color: #b98b71;
+            font-weight:700;
+            z-index: 2100;
+        }
+        .modal-wrapper { position: relative; display:flex; align-items:center; justify-content:center; }
+        .modal-wrapper .modal-close { right:-14px; top:-14px; background:#fff; color:#b98b71; border:1px solid #eee; }
+
+/* project nav small buttons (under info) */
+.project-nav { display:flex; gap:10px; margin-top:14px; align-items:center; }
+.project-nav button { background:transparent; border:1px solid rgba(255,255,255,0.2); color:#fff; padding:8px 10px; border-radius:6px; cursor:pointer; }
+
+/* Hide project panels by default; show only the .active one */
+.project-panel {
+  display: none;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* When panel is active, show it (block so layout works inside modal) */
+.project-panel.active {
+  display: block;
+}
+
+/* Ensure project-slides acts like a proper carousel container */
+.project-slides {
+  display: flex;
+  transition: transform .5s ease;
+  will-change: transform;
+  height: 100%;
+  overflow: hidden;      /* important: keep non-active slides out of view */
+}
+
+/* Each slide takes full width of the panel */
+.project-slide {
+  min-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+        @media (max-width:980px){
+            .modal{flex-direction:column;min-height:480px}
+            .modal-gallery{order:1;padding:12px}
+            .modal-info{order:2;padding:18px}
+            .modal-info{flex:auto}
+            .mosaic .m1{grid-column:1 / span 2; grid-row:1 / span 1}
+            .mosaic .m2{grid-column:1 / span 1; grid-row:2 / span 1}
+            .mosaic .m3{grid-column:2 / span 1; grid-row:2 / span 1; display:flex; flex-direction:column; gap:10px}
+            .slide-arrow.left { left: 24px; }
+            .slide-arrow.right { right: 24px; }
+        }
+        @media (max-width:560px){
+            .services-grid{grid-template-columns:repeat(1,1fr)}
+            .mosaic{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+            .mosaic .m1{grid-row:1/span1;grid-column:1/span2}
+            .mosaic .m2{grid-row:2/span1;grid-column:1/span1}
+            .mosaic .m3{grid-row:2/span1;grid-column:2/span1;grid-template-columns:1fr;grid-template-rows:1fr 1fr}
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">AASTHA K THAKKAR</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>AASTHA K THAKKAR</h1>
+        <p class="title">Luxury Social Media & Brand Experience Specialist</p>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="number">40+</div>
+                <div class="label">Brands</div>
+            </div>
+            <div class="stat">
+                <div class="number">5+</div>
+                <div class="label">Industries</div>
+            </div>
+            <div class="stat">
+                <div class="number">100%</div>
+                <div class="label">Dedication</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <h2>About Me</h2>
+        <p>I am a Social Media & Creative Strategy Specialist with experience across 40+ brands in jewellery, fashion, lifestyle, wellness, and F&B.</p>
+        <p>My work spans end-to-end brand presence — from social media management and content strategy to model shoots, UGC/EGC production, influencer marketing and celebrity collaborations.</p>
+        <p>I've led store launches, exhibition setups, and high-end shoots that shape a brand's visual identity and digital performance. My approach blends clean aesthetics with strategic storytelling, helping premium brands look elevated, cohesive and impactful online.</p>
+    </section>
+
+    <!-- Services Section -->
+<section class="services" id="services">
+    <h2>Services</h2>
+    <div class="services-grid">
+
+        <a href="services_content_social_media.html" class="service-link" data-project="tyohaar">
+            <div class="service-card">
+                <h3>Social Media Management</h3>
+                <p>Strategic content planning and execution across all platforms to build cohesive brand presence.</p>
+                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #eee;">
+                    <p style="font-weight:600; color:#000; margin-bottom:10px;">Featured Work: Tyohaar Silver Jewellery</p>
+                    <p style="font-size:13px; color:#666; margin-bottom:8px;">Built brand from scratch including store opening, social media strategy, model shoots, influencer tie-ups, EGC & UGC content, director's video, bridal campaigns, and new store launches.</p>
+                    <p style="font-size:13px; color:#B8860B; font-weight:500;">Results: 1.1M - 1.9M reach per post</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="services_content.html" class="service-link" data-project="bridal">
+            <div class="service-card">
+                <h3>Model & Celebrity Shoots</h3>
+                <p>High-end photography direction and production for luxury brand campaigns.</p>
+            </div>
+        </a>
+
+        <a href="services_content.html" class="service-link" data-project="content">
+            <div class="service-card">
+                <h3>Content Creation</h3>
+                <p>UGC, EGC, and branded content that resonates with your target audience.</p>
+            </div>
+        </a>
+
+        <a href="services_content.html" class="service-link" data-project="influencer">
+            <div class="service-card">
+                <h3>Influencer Marketing</h3>
+                <p>Strategic collaborations with influencers and celebrities to amplify brand reach.</p>
+            </div>
+        </a>
+
+        <a href="services_content.html" class="service-link" data-project="campaigns">
+            <div class="service-card">
+                <h3>Creative Campaigns</h3>
+                <p>End-to-end campaign development from concept to execution.</p>
+            </div>
+        </a>
+
+        <a href="services_content.html" class="service-link" data-project="booth">
+            <div class="service-card">
+                <h3>Booth Design & Exhibitions</h3>
+                <p>Creating immersive brand experiences for events and exhibitions.</p>
+            </div>
+        </a>
+
+    </div>
+</section>
+
+
+
+    <!-- CTA Section -->
+    <section class="cta" id="contact">
+        <h2>Let's Create Something Beautiful</h2>
+        <a href="mailto:your.email@example.com" class="cta-button">Get In Touch</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Aastha K Thakkar. All rights reserved.</p>
+    </footer>
+
+    <!-- Modal / Lightbox (STATIC project panels inside modal) -->
+    <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+      <div class="modal-wrapper">
+        <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+          <div class="modal-gallery">
+
+            <!-- left slide arrow (navigates slides inside active project) -->
+            <button class="slide-arrow left" id="prevSlide" aria-label="Previous slide">&#8249;</button>
+
+            <!-- STATIC project panels: each panel contains a .project-slides carousel (static HTML) -->
+            <!-- Panel: tyohaar (3 slides) -->
+            <div class="project-panel" data-project="tyohaar" id="panel-tyohaar"
+                 data-kicker="Brand Identity" data-title="SANSKRITI — Identity"
+                 data-description="Having a strategic branding has the power of creating a connection with your audience. Sanskriti Jewels is a brand that fuses tradition with modern concepts to bring class and exuberance in jewellery. Following the same thought process, we worked on their brand identity right from scratch!"
+                 data-meta="Design • Identity • Collateral">
+                <div class="project-slides">
+                    <!-- slide 0 -->
+                    <div class="project-slide" data-kicker="Brand Identity" data-title="SANSKRITI — Identity" data-description="Identity details" data-meta="Design">
+                        <div class="mosaic single-on-1">
+                            <div class="m1"><img src="https://www.sensedesign.in/images/services/brand-slider1-4.jpg" alt="Sanskriti 1"></div>
+                            <div class="m2"><img src="aliabhatt.jpg" alt="Sanskriti 2"></div>
+                            <div class="m3"><img src="https://via.placeholder.com/400x350?text=Sanskriti+3" alt="Sanskriti 3"><img src="https://via.placeholder.com/400x350?text=Sanskriti+4" alt="Sanskriti 4"></div>
+                        </div>
+                    </div>
+
+                    <!-- slide 1 -->
+                    <div class="project-slide" data-kicker="Collateral" data-title="SANSKRITI — Collateral" data-description="Collateral details" data-meta="Stationery">
+                        <div class="mosaic">
+                            <div class="m1"><img src="https://via.placeholder.com/900x1100?text=Collateral+1" alt="Collateral 1"></div>
+                            <div class="m2"><img src="https://via.placeholder.com/700x500?text=Collateral+2" alt="Collateral 2"></div>
+                            <div class="m3"><img src="https://via.placeholder.com/400x350?text=Collateral+3" alt="Collateral 3"></div>
+                        </div>
+                    </div>
+
+                    <!-- slide 2 -->
+                    <div class="project-slide" data-kicker="Campaign" data-title="SANSKRITI — Campaign" data-description="Campaign details" data-meta="Campaign">
+                        <div class="mosaic">
+                            <div class="m1"><img src="https://via.placeholder.com/900x1100?text=Campaign+1" alt="Campaign 1"></div>
+                            <div class="m2"><img src="https://via.placeholder.com/700x500?text=Campaign+2" alt="Campaign 2"></div>
+                            <div class="m3"><img src="https://via.placeholder.com/400x350?text=Campaign+3" alt="Campaign 3"><img src="https://via.placeholder.com/400x350?text=Campaign+4" alt="Campaign 4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel: bridal (1 slide) -->
+            <div class="project-panel" data-project="bridal" id="panel-bridal"
+                 data-kicker="Campaign" data-title="Luxe Bridal Edit" data-description="High-end photoshoot and storytelling for bridal campaigns." data-meta="Photography">
+                <div class="project-slides">
+                    <div class="project-slide" data-title="Luxe Bridal Edit">
+                        <div class="mosaic">
+                            <div class="m1"><img src="https://via.placeholder.com/900x1100?text=Bridal+1" alt="Bridal 1"></div>
+                            <div class="m2"><img src="https://via.placeholder.com/700x500?text=Bridal+2" alt="Bridal 2"></div>
+                            <div class="m3"><img src="https://via.placeholder.com/400x350?text=Bridal+3" alt="Bridal 3"></div>
+                        </div>
+                    </div>
+					
+                </div>
+            </div>
+
+            <!-- Panel: content (1 slide) -->
+            <div class="project-panel" data-project="content" id="panel-content"
+                 data-kicker="Content Creation" data-title="UGC & EGC Series" data-description="Short-form assets and lifestyle imagery." data-meta="Content">
+                <div class="project-slides">
+                    <div class="project-slide" data-title="UGC & EGC Series">
+                        <div class="mosaic">
+                            <div class="m1"><img src="https://via.placeholder.com/900x1100?text=Content+1" alt="Content 1"></div>
+                            <div class="m2"><img src="https://via.placeholder.com/700x500?text=Content+2" alt="Content 2"></div>
+                            <div class="m3"><img src="https://via.placeholder.com/400x350?text=Content+3" alt="Content 3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel: influencer (1 slide) -->
+            <div class="project-panel" data-project="influencer" id="panel-influencer"
+                 data-kicker="Influencer" data-title="Collaborations & Amplification" data-description="Strategic influencer partnerships." data-meta="Influencer">
+                <div class="project-slides">
+                    <div class="project-slide">
+                        <div class="mosaic">
+                            <div class="m1"><img src="https://via.placeholder.com/900x1100?text=Influencer+1" alt="Influencer 1"></div>
+                            <div class="m2"><img src="https://via.placeholder.com/700x500?text=Influencer+2" alt="Influencer 2"></div>
+                            <div class="m3"><img src="https://via.placeholder.com/400x350?text=Influencer+3" alt="Influencer 3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel: campaigns (1 slide) -->
+            <div class="project-panel" data-project="campaigns" id="panel-campaigns"
+                 data-kicker="Campaigns" data-title="Seasonal Campaigns" data-description="Concept to execution for campaigns." data-meta="Campaigns">
+                <div class="project-slides">
+                    <div class="project-slide">
+                        <div class="mosaic">
+                            <div class="m1"><img src="https://via.placeholder.com/900x1100?text=Campaign+1" alt="Campaign 1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel: booth (1 slide) -->
+            <div class="project-panel" data-project="booth" id="panel-booth"
+                 data-kicker="Exhibitions" data-title="Booth Design & Brand Experience" data-description="Event booth design and execution." data-meta="Exhibition">
+                <div class="project-slides">
+                    <div class="project-slide">
+                        <div class="mosaic">
+                            <div class="m1"><img src="https://via.placeholder.com/900x1100?text=Booth+1" alt="Booth 1"></div>
+                            <div class="m2"><img src="https://via.placeholder.com/700x500?text=Booth+2" alt="Booth 2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- right slide arrow (navigates slides inside active project) -->
+            <button class="slide-arrow right" id="nextSlide" aria-label="Next slide">&#8250;</button>
+
+          </div>
+
+          <div class="modal-info" id="modalInfo">
+            <div class="kicker" id="modalKicker">Brand Identity</div>
+            <h3 id="modalTitle">Project Title</h3>
+            <p id="modalDescription">A short description of the project will appear here. This area contains the overview text, approach and highlights that match the visual display to the left.</p>
+            <div class="meta" id="modalMeta">Project: Branding • Services: Creative, Social</div>
+
+            <div class="project-nav" id="projectNav">
+              <button id="firstProjBtn" title="First project">First</button>
+              <button id="lastProjBtn" title="Last project">Last</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        (function() {
+            // ---------- Existing main carousel code (kept) ----------
+            const slidesWrap = document.querySelector('.slides');
+            const slides = Array.from(document.querySelectorAll('.slide'));
+            const prevBtn = document.querySelector('.prev');
+            const nextBtn = document.querySelector('.next');
+            const dots = Array.from(document.querySelectorAll('.dot'));
+            let current = 0;
+            let slideCount = slides.length;
+            let autoPlayInterval = 5000;
+            let timer;
+
+            function goTo(index) {
+                if (index < 0) index = slideCount - 1;
+                if (index >= slideCount) index = 0;
+                current = index;
+                slidesWrap.style.transform = 'translateX(' + (-current * 100) + '%)';
+                updateDots();
+            }
+
+            function updateDots() {
+                dots.forEach(d => d.classList.remove('active'));
+                const active = dots.find(d => Number(d.dataset.index) === current);
+                if (active) active.classList.add('active');
+            }
+
+            function next() { goTo(current + 1); }
+            function prev() { goTo(current - 1); }
+
+            // attach events
+            nextBtn.addEventListener('click', () => { next(); resetTimer(); });
+            prevBtn.addEventListener('click', () => { prev(); resetTimer(); });
+            dots.forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    const idx = Number(e.currentTarget.dataset.index);
+                    goTo(idx);
+                    resetTimer();
+                });
+            });
+
+            // autoplay
+            function startTimer() {
+                timer = setInterval(next, autoPlayInterval);
+            }
+            function resetTimer() {
+                clearInterval(timer);
+                startTimer();
+            }
+
+            // start carousel
+            goTo(0);
+            startTimer();
+
+            // Pause autoplay on hover for better UX
+            const carousel = document.querySelector('.carousel');
+            carousel.addEventListener('mouseenter', () => clearInterval(timer));
+            carousel.addEventListener('mouseleave', () => startTimer());
+
+            // keyboard support for main carousel
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') { prev(); resetTimer(); }
+                if (e.key === 'ArrowRight') { next(); resetTimer(); }
+            });
+
+            // ---------- Modal: static panel approach (no project-level carousel arrows) ----------
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalClose = document.getElementById('modalClose');
+            const modalKicker = document.getElementById('modalKicker');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalMeta = document.getElementById('modalMeta');
+
+            const serviceLinks = document.querySelectorAll('.service-link');
+            const projectPanels = Array.from(document.querySelectorAll('.project-panel'));
+            const panelByKey = {};
+            projectPanels.forEach(p => panelByKey[p.dataset.project] = p);
+			projectPanels.forEach(p => p.classList.remove('active'));
+            const panelKeys = projectPanels.map(p => p.dataset.project);
+
+            const prevSlideBtn = document.getElementById('prevSlide');
+            const nextSlideBtn = document.getElementById('nextSlide');
+            const firstProjBtn = document.getElementById('firstProjBtn');
+            const lastProjBtn = document.getElementById('lastProjBtn');
+
+            let activePanelKey = null;
+            let activePanel = null;
+            let activeSlideIndex = 0;
+
+            function showPanel(key){
+                // hide all panels
+                projectPanels.forEach(p => p.classList.remove('active'));
+                const panel = panelByKey[key];
+                if(!panel) return;
+                panel.classList.add('active');
+                activePanelKey = key;
+                activePanel = panel;
+                activeSlideIndex = 0;
+                updateSlidesTransform();
+                // set info from panel data attributes
+                modalKicker.textContent = panel.dataset.kicker || '';
+                modalTitle.textContent = panel.dataset.title || '';
+                modalDescription.textContent = panel.dataset.description || '';
+                modalMeta.textContent = panel.dataset.meta || '';
+                // open modal
+                modalOverlay.classList.add('open');
+                modalOverlay.setAttribute('aria-hidden','false');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function updateSlidesTransform(){
+                if(!activePanel) return;
+                const slidesWrap = activePanel.querySelector('.project-slides');
+                if(!slidesWrap) return;
+                const slides = slidesWrap.querySelectorAll('.project-slide');
+                const count = slides.length || 1;
+                if(activeSlideIndex < 0) activeSlideIndex = count - 1;
+                if(activeSlideIndex >= count) activeSlideIndex = 0;
+                slidesWrap.style.transform = 'translateX(' + (-activeSlideIndex * 100) + '%)';
+
+                // show/hide slide arrows
+                if(count <= 1){
+                    prevSlideBtn.style.display = 'none';
+                    nextSlideBtn.style.display = 'none';
+                } else {
+                    prevSlideBtn.style.display = 'flex';
+                    nextSlideBtn.style.display = 'flex';
+                }
+
+                // update info panel from current slide data attributes if present
+                const currentSlide = slides[activeSlideIndex];
+                if(currentSlide){
+                    if(currentSlide.dataset.kicker) modalKicker.textContent = currentSlide.dataset.kicker;
+                    if(currentSlide.dataset.title) modalTitle.textContent = currentSlide.dataset.title;
+                    if(currentSlide.dataset.description) modalDescription.textContent = currentSlide.dataset.description;
+                    if(currentSlide.dataset.meta) modalMeta.textContent = currentSlide.dataset.meta;
+                }
+                // handle mosaic.single when only one image in that slide
+                // (we use presence of .mosaic and number of images inside)
+                if(currentSlide){
+                    const mosaic = currentSlide.querySelector('.mosaic');
+                    if(mosaic){
+                        const imgs = mosaic.querySelectorAll('img');
+                        if(imgs.length === 1) mosaic.classList.add('single');
+                        else mosaic.classList.remove('single');
+                    }
+                }
+            }
+
+            // attach service link clicks
+            serviceLinks.forEach(link => {
+                link.addEventListener('click', function(e){
+                    e.preventDefault();
+                    const key = this.dataset.project;
+                    if(!key) return;
+                    showPanel(key);
+                });
+            });
+
+            // slide navigation
+            prevSlideBtn.addEventListener('click', function(e){
+                e.stopPropagation();
+                if(!activePanel) return;
+                const slidesWrap = activePanel.querySelector('.project-slides');
+                if(!slidesWrap) return;
+                const len = slidesWrap.querySelectorAll('.project-slide').length || 1;
+                if(len <= 1) return;
+                activeSlideIndex = (activeSlideIndex - 1 + len) % len;
+                updateSlidesTransform();
+            });
+            nextSlideBtn.addEventListener('click', function(e){
+                e.stopPropagation();
+                if(!activePanel) return;
+                const slidesWrap = activePanel.querySelector('.project-slides');
+                if(!slidesWrap) return;
+                const len = slidesWrap.querySelectorAll('.project-slide').length || 1;
+                if(len <= 1) return;
+                activeSlideIndex = (activeSlideIndex + 1) % len;
+                updateSlidesTransform();
+            });
+
+            // first/last project quick nav
+            firstProjBtn.addEventListener('click', function(){
+                if(panelKeys.length) showPanel(panelKeys[0]);
+            });
+            lastProjBtn.addEventListener('click', function(){
+                if(panelKeys.length) showPanel(panelKeys[panelKeys.length - 1]);
+            });
+
+            // close modal
+            modalClose.addEventListener('click', function(){ modalOverlay.classList.remove('open'); modalOverlay.setAttribute('aria-hidden','true'); document.body.style.overflow=''; activePanel=null; });
+            modalOverlay.addEventListener('click', function(e){ if(e.target === modalOverlay){ modalOverlay.classList.remove('open'); modalOverlay.setAttribute('aria-hidden','true'); document.body.style.overflow=''; activePanel=null; }});
+
+            // keyboard navigation inside modal: left/right for slides, escape to close
+            document.addEventListener('keydown', function(e){
+                if(!modalOverlay.classList.contains('open')) return;
+                if(e.key === 'Escape'){ modalOverlay.classList.remove('open'); modalOverlay.setAttribute('aria-hidden','true'); document.body.style.overflow=''; activePanel=null; }
+                if(e.key === 'ArrowLeft'){ prevSlideBtn.click(); }
+                if(e.key === 'ArrowRight'){ nextSlideBtn.click(); }
+            });
+
+            // open from query param (optional)
+            (function openFromQuery(){
+                try {
+                    const params = new URLSearchParams(window.location.search);
+                    const p = params.get('project');
+                    const s = parseInt(params.get('slide'), 10);
+                    if(p && panelByKey[p]){
+                        showPanel(p);
+                        if(!isNaN(s)){
+                            activeSlideIndex = s;
+                            updateSlidesTransform();
+                        }
+                    }
+                } catch(e){}
+            })();
+
+        })();
+    </script>
+</body>
+</html>
